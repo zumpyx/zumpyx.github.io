@@ -16,6 +16,9 @@ jobs:
       name: github-pages
 
     steps:
+      - name: show files
+        run: pwd; ls -la
+
       - uses: actions/checkout@v4
         with:
           submodules: true
@@ -36,7 +39,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .github/zola/public
+          path: .github/zola/public/
 
       - name: Deploy to GitHub Pages
         id: deployment

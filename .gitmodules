@@ -1,0 +1,4 @@
+[submodule ".github/zola/themes/serene"]
+	path = .github/zola/themes/serene
+	url = https://github.com/isunjn/serene.git
+	branch = latest

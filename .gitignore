@@ -1,0 +1,17 @@
+
+
+*.exe
+*.dll
+*.obj
+*.pdb
+*.idb
+*.lib
+*.suo
+*.user
+*.tlog
+*.lastbuildstate
+*.ncb
+*.sdf
+*.opensdf
+*.vcxproj.user
+*.vscode

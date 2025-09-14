@@ -21,8 +21,7 @@ jobs:
 
       - name: Prepare Zola workspace
         run: |
-          rm -rf .github/zola/*
-          cp -r ./blog/* .github/zola/
+          cp -r ./blog/* .github/zola/content/posts/
 
       - name: Build with Zola (Docker)
         run: |

@@ -16,13 +16,13 @@ jobs:
       name: github-pages
 
     steps:
-      - name: show files
-        run: pwd; ls -la
-
       - uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 1
+      
+      - name: show files
+        run: pwd; ls -la
 
       - name: Prepare Zola workspace
         run: |

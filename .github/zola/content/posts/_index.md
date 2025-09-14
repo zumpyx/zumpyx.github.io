@@ -18,8 +18,11 @@ date_format = "%Y-%m-%d"
 categorized = false # posts can be categorized
 back_to_top = true # show back-to-top button
 toc = true # show table-of-contents
-comment = false # enable comment
+comment = true # enable comment
 copy = true # show copy button in code block
+math = true
+mermaid = true
+featured = true
 
 outdate_alert = false
 outdate_alert_days = 12

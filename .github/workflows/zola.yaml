@@ -23,8 +23,9 @@ jobs:
         run: |
           docker run --rm \
             -v ${{ github.workspace }}/.github/zola:/site \
+            -w /site \
             ghcr.io/getzola/zola:v0.21.0 \
-            build --root /site
+            build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

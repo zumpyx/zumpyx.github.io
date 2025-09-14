@@ -8,4 +8,4 @@ title = "Projects"
 subtitle = "Some cool projects I made"
 +++
 
-{{ collection(file="projects.toml") }}
+{{ collection(file="../collections/projects.toml") }}

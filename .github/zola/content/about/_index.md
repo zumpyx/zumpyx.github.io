@@ -5,16 +5,13 @@ template = "prose.html"
 insert_anchor_links = "none"
 
 [extra]
-lang = 'en'
-
-title = "Posts"
-subtitle = "I write about ...."
-
-math = false
-mermaid = false
-copy = false
-comment = false
-reaction = false
+title = "About"
+subtitle = "A separate section page example"
+reaction = true
 +++
 
 Hi, My name is ....
+
+## 朋友们
+
+{{ collection(file="../collections/blogroll.toml") }}

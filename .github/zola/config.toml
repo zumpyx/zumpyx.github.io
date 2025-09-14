@@ -38,6 +38,7 @@ sections = [
   { name = "项目", path = "/projects", is_external = false },
   { name = "文章", path = "/posts", is_external = false },
   { name = "标签", path = "/tags", is_external = false },
+  { name = "类别", path = "/categories", is_external = false },
   { name = "关于", path = "/about", is_external = false },
 ]
 blog_section_path = "/posts"

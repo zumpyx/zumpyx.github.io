@@ -22,7 +22,7 @@ jobs:
       - name: Build with Zola (Docker)
         uses: addnab/docker-run-action@v3
         with:
-          image: ghcr.io/getzola/zola:latest
+          image: ghcr.io/getzola/zola:v0.21.0
           options: -v ${{ github.workspace }}/.github/zola:/site
           run: zola build --root /site
 

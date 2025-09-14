@@ -12,11 +12,16 @@ jobs:
     permissions:
       pages: write
       id-token: write
+
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 1
 
-      - name: Copy blog files
+      - name: Prepare Zola workspace
         run: |
+          rm -rf .github/zola/*
           cp -r ./blog/* .github/zola/
 
       - name: Build with Zola (Docker)
@@ -31,7 +36,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: .github/zola/public
-      
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

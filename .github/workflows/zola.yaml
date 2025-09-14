@@ -20,11 +20,11 @@ jobs:
           cp -r ./blog/* .github/zola/
 
       - name: Build with Zola (Docker)
-        uses: addnab/docker-run-action@v3
-        with:
-          image: ghcr.io/getzola/zola:v0.21.0
-          options: -v ${{ github.workspace }}/.github/zola:/site
-          run: zola build --root /site
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/.github/zola:/site \
+            ghcr.io/getzola/zola:v0.21.0 \
+            build --root /site
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

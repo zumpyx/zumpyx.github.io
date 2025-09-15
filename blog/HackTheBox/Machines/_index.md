@@ -11,7 +11,7 @@ generate_feeds = true
 lang = "zh"
 
 title = "Posts"
-subtitle = "I write about ...."
+subtitle = "HackTheBox Machines"
 
 date_format = "%Y-%m-%d"
 

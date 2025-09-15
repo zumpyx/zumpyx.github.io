@@ -15,7 +15,7 @@ subtitle = "I write about ...."
 
 date_format = "%Y-%m-%d"
 
-categorized = true # posts can be categorized
+categorized = false # posts can be categorized
 back_to_top = true # show back-to-top button
 toc = true # show table-of-contents
 comment = true # enable comment

@@ -1,4 +1,4 @@
----
++++
 title = "BlockBlock"
 description = ""
 date = 2024-11-21
@@ -8,7 +8,7 @@ draft = true
 [taxonomies]
 categories = ["HackTheBox", "Machines", "Linux", "Hard"]
 tags = ["Ethereum", "区块链", "xss", "forge", "pacman", "命令劫持"]
----
++++
 
 ![BlockBlock.png](BlockBlock/BlockBlock.png)
 

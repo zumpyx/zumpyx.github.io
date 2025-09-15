@@ -1,13 +1,14 @@
 +++
 title = "0635 BlockBlock"
-description = ""
+description = "123"
 date = 2024-11-21
-updated = 2024-11-21
-draft = false
 
 [taxonomies]
 categories = ["HackTheBox", "Machines", "Linux", "Hard"]
 tags = ["Ethereum", "区块链", "xss", "forge", "pacman", "命令劫持"]
+
+[extra]
+toc = true
 +++
 
 ![BlockBlock.png](0635-BlockBlock/BlockBlock.png)

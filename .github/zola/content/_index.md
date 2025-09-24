@@ -26,3 +26,8 @@ date_format = "%Y-%m-%d"
 +++
 
 Hi, I'm ...
+
+
+## 朋友们
+
+{{ collection(file="../collections/blogroll.toml") }}
